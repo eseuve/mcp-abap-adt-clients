@@ -20,7 +20,7 @@ import type { CheckReporter } from './types';
  * Endpoint: POST /sap/bc/adt/checkruns?reporters={reporter}
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param reporter - Check reporter type
  * @param sessionId - Session ID for request tracking
  * @param version - Version to check (default: inactive)
@@ -30,10 +30,10 @@ import type { CheckReporter } from './types';
  * @example
  * ```typescript
  * // Check saved version
- * const implResult = await check(connection, 'Z_MY_BDEF', 'bdefImplementationCheck', sessionId);
+ * const implResult = await check(connection, 'Z_MY_TYPE', 'bdefImplementationCheck', sessionId);
  *
  * // Check unsaved source code
- * const syntaxResult = await check(connection, 'Z_MY_BDEF', 'abapCheckRun', sessionId, 'inactive', sourceCode);
+ * const syntaxResult = await check(connection, 'Z_MY_TYPE', 'abapCheckRun', sessionId, 'inactive', sourceCode);
  * ```
  */
 export async function check(
@@ -88,7 +88,7 @@ export async function check(
  * Uses bdefImplementationCheck reporter
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @param version - Version to check (default: inactive)
  * @param sourceCode - Optional source code to check
@@ -97,10 +97,10 @@ export async function check(
  * @example
  * ```typescript
  * // Check saved version
- * const result = await checkImplementation(connection, 'Z_MY_BDEF', sessionId);
+ * const result = await checkImplementation(connection, 'Z_MY_TYPE', sessionId);
  *
  * // Check unsaved changes
- * const result = await checkImplementation(connection, 'Z_MY_BDEF', sessionId, 'inactive', sourceCode);
+ * const result = await checkImplementation(connection, 'Z_MY_TYPE', sessionId, 'inactive', sourceCode);
  * ```
  */
 export async function checkImplementation(
@@ -126,7 +126,7 @@ export async function checkImplementation(
  * Uses abapCheckRun reporter
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @param version - Version to check (default: inactive)
  * @param sourceCode - Optional source code to check
@@ -135,10 +135,10 @@ export async function checkImplementation(
  * @example
  * ```typescript
  * // Check saved version
- * const result = await checkAbap(connection, 'Z_MY_BDEF', sessionId);
+ * const result = await checkAbap(connection, 'Z_MY_TYPE', sessionId);
  *
  * // Check unsaved changes
- * const result = await checkAbap(connection, 'Z_MY_BDEF', sessionId, 'inactive', sourceCode);
+ * const result = await checkAbap(connection, 'Z_MY_TYPE', sessionId, 'inactive', sourceCode);
  * ```
  */
 export async function checkAbap(

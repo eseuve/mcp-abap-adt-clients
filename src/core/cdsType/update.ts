@@ -24,27 +24,21 @@ import type { IUpdateCdsTypeParams } from './types';
  *
  * @example
  * ```typescript
- * const source = `managed implementation in class zbp_my_bdef unique;
- * strict ( 2 );
- *
- * define behavior for Z_MY_ENTITY
- * persistent table z_my_table
- * lock master
- * authorization master ( instance )
+ * const source = `@EndUserText.label: 'My type'
+ * define type Z_MY_TYPE : abap.int4 enum
  * {
- *   create;
- *   update;
- *   delete;
+ *   unknown = initial;
+ *   one     = 1;
  * }`;
  *
- * const lockHandle = await lock(connection, 'Z_MY_BDEF', sessionId);
+ * const lockHandle = await lock(connection, 'Z_MY_TYPE');
  * await update(connection, {
- *   name: 'Z_MY_BDEF',
+ *   name: 'Z_MY_TYPE',
  *   sourceCode: source,
  *   lockHandle,
  *   transportRequest: 'E19K905635'
  * });
- * await unlock(connection, 'Z_MY_BDEF', lockHandle, sessionId);
+ * await unlock(connection, 'Z_MY_TYPE', lockHandle);
  * ```
  */
 export async function update(

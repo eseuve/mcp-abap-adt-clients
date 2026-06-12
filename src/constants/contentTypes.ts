@@ -188,6 +188,9 @@ export const CT_PACKAGE = 'application/vnd.sap.adt.packages.v2+xml';
 // Behavior Definitions
 export const CT_BEHAVIOR_DEFINITION = 'application/vnd.sap.adt.blues.v1+xml';
 
+// CDS Types (DRTY) — same "blue" (wbobj) family as behavior definitions
+export const CT_CDS_TYPE = 'application/vnd.sap.adt.blues.v1+xml';
+
 // Service Definitions
 export const CT_SERVICE_DEFINITION = 'application/vnd.sap.adt.ddic.srvd.v1+xml';
 

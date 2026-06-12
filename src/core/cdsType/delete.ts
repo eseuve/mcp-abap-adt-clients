@@ -21,13 +21,13 @@ import { getTimeout } from '../../utils/timeouts';
  * Endpoint: POST /sap/bc/adt/deletion/check
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @returns Axios response with deletion check result
  *
  * @example
  * ```typescript
- * const checkResult = await checkDeletion(connection, 'Z_MY_BDEF', sessionId);
+ * const checkResult = await checkDeletion(connection, 'Z_MY_TYPE', sessionId);
  * // Check if deletable
  * const isDeletable = checkResult.data.match(/del:isDeletable="true"/);
  * ```
@@ -64,7 +64,7 @@ export async function checkDeletion(
  * Endpoint: POST /sap/bc/adt/deletion/delete
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @param transportRequest - Optional transport request number
  * @returns Axios response with deletion result
@@ -72,10 +72,10 @@ export async function checkDeletion(
  * @example
  * ```typescript
  * // Check first
- * await checkDeletion(connection, 'Z_MY_BDEF', sessionId);
+ * await checkDeletion(connection, 'Z_MY_TYPE', sessionId);
  *
  * // Then delete
- * await deleteCdsType(connection, 'Z_MY_BDEF', sessionId, 'DEVK900123');
+ * await deleteCdsType(connection, 'Z_MY_TYPE', sessionId, 'DEVK900123');
  * ```
  */
 export async function deleteCdsType(

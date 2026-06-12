@@ -17,14 +17,14 @@ import { encodeSapObjectName } from '../../utils/internalUtils';
  * Endpoint: POST /sap/bc/adt/activation?method=activate&preauditRequested=true
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @param preauditRequested - Request preaudit (default: true)
  * @returns Axios response with activation result
  *
  * @example
  * ```typescript
- * await activate(connection, 'Z_MY_BDEF', sessionId);
+ * await activate(connection, 'Z_MY_TYPE', sessionId);
  * ```
  */
 export async function activate(

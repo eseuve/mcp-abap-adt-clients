@@ -7,7 +7,7 @@ import type {
   HttpError,
   IAbapConnection,
 } from '@mcp-abap-adt/interfaces';
-import { CT_BEHAVIOR_DEFINITION } from '../../constants/contentTypes';
+import { CT_CDS_TYPE } from '../../constants/contentTypes';
 import { limitDescription } from '../../utils/internalUtils';
 import { getTimeout } from '../../utils/timeouts';
 import type { ICdsTypeCreateParams } from './types';
@@ -57,8 +57,8 @@ export async function create(
 </blue:blueSource>`;
 
     const headers = {
-      Accept: CT_BEHAVIOR_DEFINITION,
-      'Content-Type': CT_BEHAVIOR_DEFINITION,
+      Accept: CT_CDS_TYPE,
+      'Content-Type': CT_CDS_TYPE,
     };
 
     const url = `/sap/bc/adt/ddic/drty/sources${params.transportRequest ? `?corrNr=${params.transportRequest}` : ''}`;
