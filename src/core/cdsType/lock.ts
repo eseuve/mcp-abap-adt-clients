@@ -1,0 +1,149 @@
+/**
+ * CDS Type lock operations
+ */
+
+import type {
+  IAdtResponse as AxiosResponse,
+  IAbapConnection,
+} from '@mcp-abap-adt/interfaces';
+import { XMLParser } from 'fast-xml-parser';
+import { ACCEPT_LOCK } from '../../constants/contentTypes';
+import { encodeSapObjectName } from '../../utils/internalUtils';
+import { getTimeout } from '../../utils/timeouts';
+
+/**
+ * Lock CDS type for modification
+ *
+ * Endpoint: POST /sap/bc/adt/ddic/drty/sources/{name}?_action=LOCK&accessMode=MODIFY
+ *
+ * @param connection - ABAP connection instance
+ * @param name - Behavior definition name
+ * @param sessionId - Session ID for request tracking
+ * @param accessMode - Access mode (default: MODIFY)
+ * @returns Lock handle that must be used in subsequent update/unlock requests
+ *
+ * @example
+ * ```typescript
+ * const lockHandle = await lock(connection, 'Z_MY_BDEF', sessionId);
+ * // Use lockHandle for update operations
+ * ```
+ */
+export async function lock(
+  connection: IAbapConnection,
+  name: string,
+  accessMode: string = 'MODIFY',
+): Promise<string> {
+  const url = `/sap/bc/adt/ddic/drty/sources/${encodeSapObjectName(name).toLowerCase()}?_action=LOCK&accessMode=${accessMode}`;
+
+  const xmlBody = `<?xml version="1.0" encoding="UTF-8"?><asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+    <DATA>
+      <LOCK_HANDLE/>
+      <CORRNR/>
+      <CORRUSER/>
+      <CORRTEXT/>
+      <IS_LOCAL>X</IS_LOCAL>
+      <IS_LINK_UP/>
+      <MODIFICATION_SUPPORT/>
+      <SCOPE_MESSAGES/>
+    </DATA>
+  </asx:values>
+</asx:abap>`;
+
+  const headers = {
+    Accept: ACCEPT_LOCK,
+    'Content-Type': 'application/xml',
+  };
+
+  const response = await connection.makeAdtRequest({
+    url,
+    method: 'POST',
+    timeout: getTimeout('default'),
+    data: xmlBody,
+    headers,
+  });
+
+  // Parse lock handle from XML response
+  const parser = new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: '',
+  });
+  const result = parser.parse(response.data);
+  const lockHandle = result?.['asx:abap']?.['asx:values']?.DATA?.LOCK_HANDLE;
+
+  if (!lockHandle) {
+    throw new Error(
+      `Failed to obtain lock handle for CDS type ${name}. Object may be locked by another user.`,
+    );
+  }
+
+  return lockHandle;
+}
+
+/**
+ * Lock CDS type for editing (returns full response)
+ *
+ * @param connection - ABAP connection instance
+ * @param name - Behavior definition name
+ * @param sessionId - Session ID for request tracking
+ * @param accessMode - Access mode (default: MODIFY)
+ * @returns Object containing response, lockHandle, and optional transport number
+ *
+ * @example
+ * ```typescript
+ * const { response, lockHandle, corrNr } = await lockForUpdate(connection, 'Z_MY_BDEF', sessionId);
+ * ```
+ */
+export async function lockForUpdate(
+  connection: IAbapConnection,
+  name: string,
+  _sessionId: string,
+  accessMode: string = 'MODIFY',
+): Promise<{ response: AxiosResponse; lockHandle: string; corrNr?: string }> {
+  const url = `/sap/bc/adt/ddic/drty/sources/${encodeSapObjectName(name).toLowerCase()}?_action=LOCK&accessMode=${accessMode}`;
+
+  const xmlBody = `<?xml version="1.0" encoding="UTF-8"?><asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+    <DATA>
+      <LOCK_HANDLE/>
+      <CORRNR/>
+      <CORRUSER/>
+      <CORRTEXT/>
+      <IS_LOCAL>X</IS_LOCAL>
+      <IS_LINK_UP/>
+      <MODIFICATION_SUPPORT/>
+      <SCOPE_MESSAGES/>
+    </DATA>
+  </asx:values>
+</asx:abap>`;
+
+  const headers = {
+    Accept: ACCEPT_LOCK,
+    'Content-Type': 'application/xml',
+  };
+
+  const response = await connection.makeAdtRequest({
+    url,
+    method: 'POST',
+    timeout: getTimeout('default'),
+    data: xmlBody,
+    headers,
+  });
+
+  // Parse lock handle and transport number from XML response
+  const parser = new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: '@_',
+  });
+  const result = parser.parse(response.data);
+  const lockHandle = result?.['asx:abap']?.['asx:values']?.DATA?.LOCK_HANDLE;
+  const corrNr = result?.['asx:abap']?.['asx:values']?.DATA?.CORRNR;
+
+  if (!lockHandle) {
+    throw new Error(
+      `Failed to obtain lock handle for CDS type ${name}. Object may be locked by another user.`,
+    );
+  }
+
+  return { response, lockHandle, corrNr };
+}

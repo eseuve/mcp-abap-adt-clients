@@ -20,6 +20,12 @@ export { AdtAppendStructure } from './core/appendStructure';
 
 export type { AdtBehaviorDefinitionType } from './core/behaviorDefinition';
 export type { AdtBehaviorImplementationType } from './core/behaviorImplementation';
+export type {
+  AdtCdsTypeType,
+  ICdsTypeConfig,
+  ICdsTypeCreateParams,
+  ICdsTypeState,
+} from './core/cdsType';
 export type { AdtClassType } from './core/class';
 export type { AdtDataElementType } from './core/dataElement';
 export type { AdtDdlType } from './core/ddl';

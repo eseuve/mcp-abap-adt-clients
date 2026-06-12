@@ -58,6 +58,8 @@ import {
   type IBehaviorImplementationConfig,
   type IBehaviorImplementationState,
 } from '../core/behaviorImplementation';
+import type { ICdsTypeConfig, ICdsTypeState } from '../core/cdsType';
+import { AdtCdsType } from '../core/cdsType/AdtCdsType';
 import {
   AdtClass,
   AdtLocalDefinitions,
@@ -733,6 +735,14 @@ export class AdtClient {
       this.systemContext,
       this.lockRegistry,
     );
+  }
+
+  /**
+   * Get high-level operations for CdsType objects
+   * @returns IAdtObject instance for CdsType operations
+   */
+  getCdsType(): IAdtObject<ICdsTypeConfig, ICdsTypeState> {
+    return new AdtCdsType(this.connection, this.logger);
   }
 
   /**
