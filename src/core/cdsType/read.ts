@@ -10,7 +10,7 @@ import type {
 import {
   ACCEPT_SOURCE,
   ACCEPT_TRANSPORT,
-  CT_BEHAVIOR_DEFINITION,
+  CT_CDS_TYPE,
 } from '../../constants/contentTypes';
 import { makeAdtRequestWithAcceptNegotiation } from '../../utils/acceptNegotiation';
 import { encodeSapObjectName } from '../../utils/internalUtils';
@@ -23,14 +23,14 @@ import type { IReadOptions } from '../shared/types';
  * Endpoint: GET /sap/bc/adt/ddic/drty/sources/{name}?version=inactive
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @param version - Version to read (default: inactive)
  * @returns Axios response with CDS type metadata (XML)
  *
  * @example
  * ```typescript
- * const response = await read(connection, 'Z_MY_BDEF', sessionId);
+ * const response = await read(connection, 'Z_MY_TYPE', sessionId);
  * // Response contains metadata in blue:blueSource XML format
  * ```
  */
@@ -46,7 +46,7 @@ export async function read(
   const url = `/sap/bc/adt/ddic/drty/sources/${encodeSapObjectName(name).toLowerCase()}?version=${version}${query}`;
 
   const headers = {
-    Accept: options?.accept ?? CT_BEHAVIOR_DEFINITION,
+    Accept: options?.accept ?? CT_CDS_TYPE,
   };
 
   return makeAdtRequestWithAcceptNegotiation(
@@ -67,15 +67,15 @@ export async function read(
  * Endpoint: GET /sap/bc/adt/ddic/drty/sources/{name}/source/main
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @param version - Version to read (default: inactive)
  * @returns Axios response with source code (plain text)
  *
  * @example
  * ```typescript
- * const response = await readSource(connection, 'Z_MY_BDEF', sessionId);
- * const sourceCode = response.data; // BDEF source code
+ * const response = await readSource(connection, 'Z_MY_TYPE', sessionId);
+ * const sourceCode = response.data; // CDS type source code
  * ```
  */
 export async function readSource(
@@ -107,7 +107,7 @@ export async function readSource(
 /**
  * Get transport request for ABAP CDS type
  * @param connection - SAP connection
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @returns Transport request information
  */
 export async function getCdsTypeTransport(

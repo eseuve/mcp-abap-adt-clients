@@ -17,14 +17,14 @@ import { getTimeout } from '../../utils/timeouts';
  * Endpoint: POST /sap/bc/adt/ddic/drty/sources/{name}?_action=LOCK&accessMode=MODIFY
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @param accessMode - Access mode (default: MODIFY)
  * @returns Lock handle that must be used in subsequent update/unlock requests
  *
  * @example
  * ```typescript
- * const lockHandle = await lock(connection, 'Z_MY_BDEF', sessionId);
+ * const lockHandle = await lock(connection, 'Z_MY_TYPE', sessionId);
  * // Use lockHandle for update operations
  * ```
  */
@@ -84,14 +84,14 @@ export async function lock(
  * Lock CDS type for editing (returns full response)
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param sessionId - Session ID for request tracking
  * @param accessMode - Access mode (default: MODIFY)
  * @returns Object containing response, lockHandle, and optional transport number
  *
  * @example
  * ```typescript
- * const { response, lockHandle, corrNr } = await lockForUpdate(connection, 'Z_MY_BDEF', sessionId);
+ * const { response, lockHandle, corrNr } = await lockForUpdate(connection, 'Z_MY_TYPE', sessionId);
  * ```
  */
 export async function lockForUpdate(

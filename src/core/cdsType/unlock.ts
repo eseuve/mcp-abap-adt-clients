@@ -17,16 +17,16 @@ import { getTimeout } from '../../utils/timeouts';
  * Must use same session and lock handle from lock operation
  *
  * @param connection - ABAP connection instance
- * @param name - Behavior definition name
+ * @param name - CDS type name
  * @param lockHandle - Lock handle obtained from lock operation
  * @param sessionId - Session ID for request tracking
  * @returns Axios response
  *
  * @example
  * ```typescript
- * const lockHandle = await lock(connection, 'Z_MY_BDEF', sessionId);
+ * const lockHandle = await lock(connection, 'Z_MY_TYPE', sessionId);
  * // ... perform updates ...
- * await unlock(connection, 'Z_MY_BDEF', lockHandle, sessionId);
+ * await unlock(connection, 'Z_MY_TYPE', lockHandle, sessionId);
  * ```
  */
 export async function unlock(
