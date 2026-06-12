@@ -238,6 +238,12 @@ export class AdtClientLegacy extends AdtClient {
     );
   }
 
+  override getCdsType(): never {
+    throw new Error(
+      unsupportedError('CdsType', '/sap/bc/adt/ddic/drty/sources'),
+    );
+  }
+
   override getBehaviorImplementation(): never {
     throw new Error(
       unsupportedError(

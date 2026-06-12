@@ -57,6 +57,11 @@ export type {
   ICreateBehaviorImplementationParams,
 } from './core/behaviorImplementation';
 export type {
+  ICdsTypeConfig,
+  ICdsTypeCreateParams,
+  ICdsTypeState,
+} from './core/cdsType';
+export type {
   AdtClassType,
   ClassUnitTestDefinition,
   ClassUnitTestRunOptions,
