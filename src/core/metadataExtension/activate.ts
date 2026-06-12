@@ -9,6 +9,7 @@ import type {
   IAbapConnection,
 } from '@mcp-abap-adt/interfaces';
 import { activateObjectInSession } from '../../utils/activationUtils';
+import { encodeSapObjectName } from '../../utils/internalUtils';
 
 /**
  * Activate a metadata extension
@@ -29,7 +30,7 @@ export async function activateMetadataExtension(
   name: string,
   preaudit: boolean = true,
 ): Promise<AxiosResponse> {
-  const lowerName = name.toLowerCase();
+  const lowerName = encodeSapObjectName(name).toLowerCase();
   const objectUri = `/sap/bc/adt/ddic/ddlx/sources/${lowerName}`;
 
   return activateObjectInSession(
