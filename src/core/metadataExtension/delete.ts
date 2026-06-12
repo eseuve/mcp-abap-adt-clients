@@ -8,6 +8,7 @@ import type {
   IAdtResponse as AxiosResponse,
   IAbapConnection,
 } from '@mcp-abap-adt/interfaces';
+import { encodeSapObjectName } from '../../utils/internalUtils';
 import { getTimeout } from '../../utils/timeouts';
 
 /**
@@ -29,7 +30,7 @@ export async function deleteMetadataExtension(
   name: string,
   transportRequest: string | undefined,
 ): Promise<AxiosResponse> {
-  const lowerName = name.toLowerCase();
+  const lowerName = encodeSapObjectName(name).toLowerCase();
   const url = `/sap/bc/adt/ddic/ddlx/sources/${lowerName}${transportRequest ? `?corrNr=${transportRequest}` : ''}`;
 
   const headers = {

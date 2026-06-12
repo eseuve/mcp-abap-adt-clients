@@ -9,6 +9,7 @@ import type {
   IAbapConnection,
 } from '@mcp-abap-adt/interfaces';
 import { ACCEPT_SOURCE, CT_SOURCE } from '../../constants/contentTypes';
+import { encodeSapObjectName } from '../../utils/internalUtils';
 import { getTimeout } from '../../utils/timeouts';
 
 /**
@@ -41,7 +42,7 @@ export async function updateMetadataExtension(
   lockHandle: string,
   transportRequest?: string,
 ): Promise<AxiosResponse> {
-  const lowerName = name.toLowerCase();
+  const lowerName = encodeSapObjectName(name).toLowerCase();
   const corrNrParam = transportRequest ? `&corrNr=${transportRequest}` : '';
   const url = `/sap/bc/adt/ddic/ddlx/sources/${lowerName}/source/main?lockHandle=${encodeURIComponent(lockHandle)}${corrNrParam}`;
 
