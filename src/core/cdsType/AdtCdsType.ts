@@ -37,6 +37,7 @@ import { getCdsTypeTransport, read as readCdsType, readSource } from './read';
 import type { ICdsTypeConfig, ICdsTypeState } from './types';
 import { unlock } from './unlock';
 import { update } from './update';
+import { getCdsTypeVersionSource, getCdsTypeVersions } from './versions';
 
 export class AdtCdsType implements IAdtObject<ICdsTypeConfig, ICdsTypeState> {
   private readonly connection: IAbapConnection;
@@ -600,5 +601,13 @@ export class AdtCdsType implements IAdtObject<ICdsTypeConfig, ICdsTypeState> {
       unlockResult: result,
       errors: [],
     };
+  }
+
+  getVersions(config: Partial<ICdsTypeConfig>) {
+    return getCdsTypeVersions(this.connection, config);
+  }
+
+  getVersionSource(contentUri: string) {
+    return getCdsTypeVersionSource(this.connection, contentUri);
   }
 }
